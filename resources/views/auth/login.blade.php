@@ -44,4 +44,10 @@
             </x-primary-button>
         </div>
     </form>
+    <div class="mt-4 text-center">
+        <a href="{{ route('cadastro.empresa') }}"
+        class="underline text-sm text-gray-600 hover:text-gray-900">
+            Ainda não tem empresa? Criar nova empresa
+        </a>
+    </div>
 </x-guest-layout>

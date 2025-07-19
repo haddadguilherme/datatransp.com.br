@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Spatie\Multitenancy\Models\Concerns\IsTenant;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Multitenancy\Models\Tenant;
 
-class Empresa extends Model
+class Empresa extends Tenant
 {
-    use HasFactory, IsTenant;
+    use HasFactory;
 
     protected $fillable = ['nome', 'slug', 'cnpj'];
+
+    public function usuarios()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

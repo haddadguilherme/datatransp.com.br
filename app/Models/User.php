@@ -47,8 +47,8 @@ class User extends Authenticatable
     }
 
 
-    public function empresa()
+    public function empresas()
     {
-        return $this->belongsTo(\App\Models\Empresa::class);
+        return $this->belongsToMany(Empresa::class);
     }
 }

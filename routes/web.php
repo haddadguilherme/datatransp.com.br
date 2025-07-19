@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Auth\EmpresaCadastroController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', fn() => view('welcome'));
@@ -11,7 +11,12 @@ Route::get('/', fn() => view('welcome'));
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+
+    Route::get('/cadastro', [EmpresaCadastroController::class, 'create'])->name('cadastro.empresa');
+    Route::post('/cadastro', [EmpresaCadastroController::class, 'store'])->name('cadastro.empresa.store');
 });
+
+
 
 // Área protegida com slug do tenant
 Route::middleware(['web', 'auth', 'tenant', 'empresa.match'])->group(function () {
