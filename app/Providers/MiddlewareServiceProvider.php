@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\EnsureEmpresaSelecionada;
 use App\Http\Middleware\MatchEmpresaMiddleware;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -23,5 +24,6 @@ class MiddlewareServiceProvider extends ServiceProvider
     {
         // Alias personalizado para middleware de correspondência de empresa
         Route::aliasMiddleware('empresa.match', MatchEmpresaMiddleware::class);
+        Route::aliasMiddleware('empresa.definida', EnsureEmpresaSelecionada::class);
     }
 }

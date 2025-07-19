@@ -32,5 +32,8 @@
                 {{ $slot }}
             </main>
         </div>
+
+        <!-- Scripts adicionados dinamicamente (ex: JS de formulários) -->
+        @stack('scripts')
     </body>
 </html>

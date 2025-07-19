@@ -22,6 +22,7 @@ class EmpresaCadastroController extends Controller
         $request->validate([
             'empresa_nome' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'alpha_dash', 'unique:empresas,slug'],
+            'cnpj' => ['required', 'string', 'size:18', 'unique:empresas,cnpj'], // ou regex se quiser validar formato
             'nome' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:6', 'confirmed'],
@@ -30,6 +31,7 @@ class EmpresaCadastroController extends Controller
         $empresa = Empresa::create([
             'nome' => $request->empresa_nome,
             'slug' => Str::slug($request->slug),
+            'cnpj' => $request->cnpj,
         ]);
 
         $user = User::create([
@@ -43,6 +45,9 @@ class EmpresaCadastroController extends Controller
 
         // Fazer login e redirecionar
         Auth::login($user);
+        
+        // Armazenar o slug da empresa na sessão
+        session(['empresa_slug' => $empresa->slug]);
 
         return redirect()->to("/{$empresa->slug}/dashboard");
     }

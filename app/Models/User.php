@@ -46,7 +46,6 @@ class User extends Authenticatable
         ];
     }
 
-
     public function empresas()
     {
         return $this->belongsToMany(Empresa::class);

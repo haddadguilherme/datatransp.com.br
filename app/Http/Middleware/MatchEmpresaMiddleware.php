@@ -18,14 +18,14 @@ class MatchEmpresaMiddleware
     {
         $slugDaRota = $request->route('empresa');
 
-        if (! Auth::check()) {
-            return redirect()->route('login');
-        }
+        $user = Auth::user();
 
-        // Aqui você pode usar o relacionamento do usuário com a empresa
-        $empresaDoUsuario = Auth::user()->empresa->slug ?? null;
+        // Garante que os dados estejam carregados
+        $empresaSlugs = $user->empresas->pluck('slug')->toArray();
 
-        if ($empresaDoUsuario !== $slugDaRota) {
+        if (!in_array($slugDaRota, $empresaSlugs)) {
+            logger("Acesso negado: {$slugDaRota}");
+            logger("Empresas do usuário: " . json_encode($empresaSlugs));
             abort(403, 'Acesso não autorizado à empresa.');
         }
 

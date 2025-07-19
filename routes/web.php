@@ -19,7 +19,7 @@ Route::middleware('guest')->group(function () {
 
 
 // Área protegida com slug do tenant
-Route::middleware(['web', 'auth', 'tenant', 'empresa.match'])->group(function () {
+Route::middleware(['web', 'auth', 'empresa.definida', 'empresa.match'])->group(function () {
     
 
     Route::get('/{empresa}/dashboard', function () {

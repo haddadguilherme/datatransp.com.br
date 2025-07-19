@@ -9,11 +9,19 @@
             <x-input-error :messages="$errors->get('empresa_nome')" class="mt-2" />
         </div>
 
-        <!-- Slug -->
+        <!-- Slug (gerado automaticamente) -->
         <div class="mt-4">
-            <x-input-label for="slug" :value="'Slug da empresa (ex: transp-minas)'" />
-            <x-text-input id="slug" name="slug" type="text" class="mt-1 block w-full" :value="old('slug')" required />
+            <x-input-label for="slug" :value="'Slug da empresa'" />
+            <x-text-input id="slug" name="slug" type="text" class="mt-1 block w-full bg-gray-100" readonly />
             <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+            <small class="text-gray-500">Gerado automaticamente a partir do nome da empresa</small>
+        </div>
+
+        <!-- CNPJ -->
+        <div class="mt-4">
+            <x-input-label for="cnpj" :value="'CNPJ da Empresa'" />
+            <x-text-input id="cnpj" name="cnpj" type="text" class="mt-1 block w-full" :value="old('cnpj')" required />
+            <x-input-error :messages="$errors->get('cnpj')" class="mt-2" />
         </div>
 
         <!-- Nome do usuário -->
@@ -58,4 +66,27 @@
             Já tem uma conta? Entrar
         </a>
     </div>
+    @push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const nomeInput = document.getElementById('empresa_nome');
+            const slugInput = document.getElementById('slug');
+
+            if (!nomeInput || !slugInput) return;
+
+            nomeInput.addEventListener('input', function () {
+                let texto = nomeInput.value.toLowerCase()
+                    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // remove acentos
+                    .replace(/[^a-z0-9\s]/g, '') // remove caracteres especiais
+                    .trim()
+                    .replace(/\s+/g, '-'); // espaços viram hífen
+
+                slugInput.value = texto;
+            });
+        });
+    </script>
+    @endpush
+
 </x-guest-layout>
+
+
